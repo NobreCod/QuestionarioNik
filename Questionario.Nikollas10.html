@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário Sim ou Não</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .questionario {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .botoes {
+            margin-top: 20px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="questionario">
+    <h2>Você gosta de programar?</h2>
+    <div class="botoes">
+        <button id="sim">Sim</button>
+        <button id="nao">Não</button>
+    </div>
+    <p id="agradecimento" style="display:none;">Obrigado por sua resposta!</p>
+</div>
+
+<script>
+    const botaoSim = document.getElementById("sim");
+    const botaoNao = document.getElementById("nao");
+    const agradecimento = document.getElementById("agradecimento");
+
+    // Função para mover o botão "Sim"
+    function moverBotaoSim(event) {
+        // Prevenir que o toque ou clique ocorra
+        event.preventDefault();
+
+        const larguraJanela = window.innerWidth - botaoSim.offsetWidth;
+        const alturaJanela = window.innerHeight - botaoSim.offsetHeight;
+        const novaPosX = Math.random() * larguraJanela;
+        const novaPosY = Math.random() * alturaJanela;
+
+        botaoSim.style.position = "absolute";
+        botaoSim.style.left = novaPosX + "px";
+        botaoSim.style.top = novaPosY + "px";
+    }
+
+    // Adicionar eventos de toque e clique no botão "Sim"
+    botaoSim.addEventListener("touchstart", moverBotaoSim);
+    botaoSim.addEventListener("click", moverBotaoSim);
+
+    // Ação ao clicar no botão "Não"
+    botaoNao.addEventListener("click", function() {
+        agradecimento.style.display = "block";
+    });
+</script>
+
+</body>
+</html>
