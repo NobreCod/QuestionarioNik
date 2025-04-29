@@ -12,16 +12,18 @@
             align-items: center;
             height: 100vh;
             background-color: #f0f0f0;
+            margin: 0;
         }
         .questionario {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
+            text-align: center;
         }
         .botoes {
             margin-top: 20px;
+            position: relative;
         }
         button {
             margin: 5px;
@@ -29,46 +31,70 @@
             font-size: 16px;
             cursor: pointer;
         }
+        #mensagem {
+            margin-top: 20px;
+            font-size: 16px;
+            color: green;
+            font-weight: bold;
+        }
+        #mensagem-nao {
+            margin-top: 10px;
+            font-size: 14px;
+            color: red;
+        }
     </style>
 </head>
 <body>
 
 <div class="questionario">
-    <h2>Você gosta de programar?</h2>
+    <h2>Isa, vai dormir de conchinha com criador deste questionário?</h2>
     <div class="botoes">
         <button id="sim">Sim</button>
         <button id="nao">Não</button>
     </div>
-    <p id="agradecimento" style="display:none;">Obrigado por sua resposta!</p>
+    <p id="mensagem"></p>
+    <p id="mensagem-nao"></p>
 </div>
 
 <script>
     const botaoSim = document.getElementById("sim");
     const botaoNao = document.getElementById("nao");
-    const agradecimento = document.getElementById("agradecimento");
+    const mensagem = document.getElementById("mensagem");
+    const mensagemNao = document.getElementById("mensagem-nao");
 
-    // Função para mover o botão "Sim"
-    function moverBotaoSim(event) {
-        // Prevenir que o toque ou clique ocorra
+    // Função para mover o botão "Não" em até 15 centímetros (~150px) de sua posição original
+    function moverBotaoNao(event) {
         event.preventDefault();
 
-        const larguraJanela = window.innerWidth - botaoSim.offsetWidth;
-        const alturaJanela = window.innerHeight - botaoSim.offsetHeight;
-        const novaPosX = Math.random() * larguraJanela;
-        const novaPosY = Math.random() * alturaJanela;
+        const deslocamentoMax = 150; // 150px = 15 cm
+        const larguraJanela = window.innerWidth - botaoNao.offsetWidth;
+        const alturaJanela = window.innerHeight - botaoNao.offsetHeight;
 
-        botaoSim.style.position = "absolute";
-        botaoSim.style.left = novaPosX + "px";
-        botaoSim.style.top = novaPosY + "px";
+        // Obter posição atual do botão "Não"
+        const posicaoAtual = botaoNao.getBoundingClientRect();
+        const novaPosX = Math.min(
+            Math.max(posicaoAtual.left + (Math.random() * deslocamentoMax * 2 - deslocamentoMax), 0),
+            larguraJanela
+        );
+        const novaPosY = Math.min(
+            Math.max(posicaoAtual.top + (Math.random() * deslocamentoMax * 2 - deslocamentoMax), 0),
+            alturaJanela
+        );
+
+        botaoNao.style.position = "absolute";
+        botaoNao.style.left = novaPosX + "px";
+        botaoNao.style.top = novaPosY + "px";
+
+        // Exibe a mensagem de "Resposta não registrada"
+        mensagemNao.textContent = "Resposta não registrada, favor tentar novamente.";
     }
 
-    // Adicionar eventos de toque e clique no botão "Sim"
-    botaoSim.addEventListener("touchstart", moverBotaoSim);
-    botaoSim.addEventListener("click", moverBotaoSim);
+    // Adicionar evento para mover o botão "Não"
+    botaoNao.addEventListener("click", moverBotaoNao);
 
-    // Ação ao clicar no botão "Não"
-    botaoNao.addEventListener("click", function() {
-        agradecimento.style.display = "block";
+    // O botão "Sim" permanece fixo
+    botaoSim.addEventListener("click", function() {
+        mensagem.textContent = "Maravilha! Informe sua resposta no wpp e aguarde novas instruções :)";
     });
 </script>
 
